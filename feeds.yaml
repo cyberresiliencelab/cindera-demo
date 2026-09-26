@@ -1,0 +1,33 @@
+# ============================================================
+#  CINDERA — DEMO instance configuration
+#  Renders the full UI from SEEDED SAMPLE DATA (see sample.yaml).
+#  No live feeds are fetched. Safe to run PUBLIC (no passphrase).
+# ============================================================
+demo: true
+sample_file: sample.yaml
+
+brand:
+  name: Cindera
+  tagline: one encrypted link, always current
+
+# ---- Display grouping (same engine as the live app) ----
+display:
+  sections:
+    - {category: advisories, label: "CVE &amp; ADVISORIES"}
+    - {category: intel,      label: "THREAT ACTOR / INTEL"}
+    - {category: health,     label: "HEALTHCARE BREACHES"}
+    - {category: news,       label: "OTHER NEWS"}
+  section_limits: {advisories: 40, intel: 40, health: 25, news: 90}
+  per_source_cap: 10
+
+# ---- Ranking keywords (used to sort the sample items) ----
+priority_keywords: {critical: 3.0, high: 2.0, medium: 1.0}
+keywords:
+  critical: [actively exploited, zero-day, zero day, in the wild, known exploited,
+             ransomware attack, mass exploitation, unauthenticated remote, rce]
+  high: [critical vulnerability, cvss 9, cvss 10, patch now, data breach, supply chain,
+         exploit released, proof of concept, poc, privilege escalation]
+  medium: [vulnerability, phishing, malware, advisory, update available, patch]
+health_keywords: [hospital, health system, healthcare, patient data, patient records,
+                  phi, hipaa, medical center, clinic, health record, ehr, ocr breach]
+cvss_critical_threshold: 9.0

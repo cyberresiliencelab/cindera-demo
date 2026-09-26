@@ -1,0 +1,27 @@
+# Illustrative SAMPLE data for the Cindera demo. Nothing here is real threat intel.
+items:
+  - {title: "CVE-2026-48842: Roundcube Webmail SQL injection exploited in the wild", source: "CISA KEV", tier: advisory, category: advisories, cve: "CVE-2026-48842", age_hours: 3, summary: "actively exploited in the wild known exploited"}
+  - {title: "CISA releases six ICS advisories for medical and OT devices", source: "CISA ICS", tier: advisory, category: advisories, age_hours: 9, summary: "vulnerability advisory ics"}
+  - {title: "ZDI-26-1183: Adobe Acrobat use-after-free remote code execution", source: "Zero Day Initiative", tier: advisory, category: advisories, cve: "CVE-2026-27183", age_hours: 14, summary: "remote code execution cvss 8.8"}
+  - {title: "CISA adds Fortinet and Ivanti flaws to the KEV catalog", source: "CISA Advisories", tier: advisory, category: advisories, cve: "CVE-2026-31001", age_hours: 20, summary: "known exploited vulnerability"}
+  - {title: "Scattered Spider shifts to ransomware-as-a-service affiliates", source: "CrowdStrike", tier: intel, category: intel, age_hours: 5, summary: "threat actor ransomware"}
+  - {title: "Talos uncovers new Lua-based backdoor in telecom intrusions", source: "Cisco Talos", tier: intel, category: intel, age_hours: 11, summary: "malware campaign apt"}
+  - {title: "Unit 42: Muddled Libra escalates cloud identity attacks", source: "Palo Alto Unit 42", tier: intel, category: intel, age_hours: 26, summary: "threat actor cloud"}
+  - {title: "FortiGuard Labs tracks AvisLoader malware delivery chain", source: "Fortinet (FortiGuard)", tier: intel, category: intel, age_hours: 30, summary: "malware loader"}
+  - {title: "Microsoft: Storm-2570 tradecraft across recent deployments", source: "Microsoft Security", tier: intel, category: intel, age_hours: 7, summary: "threat actor"}
+  - {title: "HIPAA Journal: 61 healthcare breaches reported to OCR in August", source: "HIPAA Journal", tier: news, category: health, age_hours: 18, summary: "healthcare breach ocr patient"}
+  - {title: "Hospital network discloses ransomware breach affecting 310,000 patients", source: "BleepingComputer", tier: news, category: news, age_hours: 7, summary: "hospital patient records breach ransomware"}
+  - {title: "HealthcareInfoSecurity: clinic breach exposes patient records", source: "HealthcareInfoSecurity", tier: news, category: health, age_hours: 22, summary: "clinic phi breach patient"}
+  - {title: "September Patch Tuesday: two exploited zero-days among 84 fixes", source: "The Hacker News", tier: news, category: news, age_hours: 6, summary: "zero-day patch"}
+  - {title: "New phishing kit bypasses FIDO2 with device-code flow", source: "Cyber Security News", tier: news, category: news, age_hours: 13, summary: "phishing"}
+  - {title: "GBHackers: critical bug in popular WordPress plugin exploited", source: "GBHackers", tier: news, category: news, age_hours: 22, summary: "vulnerability exploited wordpress"}
+  - {title: "SecurityOnline: PoC released for Linux kernel privilege escalation", source: "SecurityOnline", tier: news, category: news, age_hours: 28, summary: "proof of concept privilege escalation"}
+  - {title: "Krebs: SIM-swap ring dismantled after a year-long probe", source: "Krebs on Security", tier: news, category: news, age_hours: 40, summary: "cybercrime"}
+  - {title: "The Record: infostealer campaign targets finance sector", source: "The Record", tier: news, category: news, age_hours: 30, summary: "infostealer"}
+  - {title: "SecurityWeek: OT security guidance updated by NIST", source: "SecurityWeek", tier: news, category: news, age_hours: 19, summary: "ot security"}
+  - {title: "Dark Reading: identity is the new perimeter, analysts say", source: "Dark Reading", tier: news, category: news, age_hours: 33, summary: "identity"}
+
+iocs:
+  - {hash: "44d88612fea8a8f36de82e1278abb02f", htype: MD5, malware: "AgentTesla", cve: "CVE-2026-1234", link: "https://threatfox.abuse.ch/"}
+  - {hash: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad", htype: SHA256, malware: "Emotet", cve: "", link: "https://threatfox.abuse.ch/"}
+  - {hash: "da39a3ee5e6b4b0d3255bfef95601890afd80709", htype: SHA1, malware: "QakBot", cve: "CVE-2026-9911", link: "https://threatfox.abuse.ch/"}
