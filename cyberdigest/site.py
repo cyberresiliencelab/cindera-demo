@@ -39,12 +39,23 @@ def _resolve_display(display):
 def _diversify(items: list[Item], limit: int, cap) -> list[Item]:
     """Interleave sources round-robin: the best item from each source first, then the
     second from each, and so on — up to `cap` per source and `limit` overall. Keeps a
-    single busy source from filling the whole section while preserving score order."""
+    single busy source from filling the whole section while preserving score order.
+    Exception: CRITICAL items are pinned first and bypass the per-source cap so an
+    actively-exploited / zero-day item can never be capped out or buried."""
     from collections import OrderedDict
-    by_src: "OrderedDict[str, list[Item]]" = OrderedDict()
-    for it in items:  # items arrive score-sorted, so first-seen = highest-scoring source
-        by_src.setdefault(it.source, []).append(it)
     out: list[Item] = []
+    pinned_ids: set[int] = set()
+    for it in items:  # score-sorted; take all critical first
+        if getattr(it, "severity", "") == "critical":
+            out.append(it)
+            pinned_ids.add(id(it))
+            if len(out) >= limit:
+                return out
+    by_src: "OrderedDict[str, list[Item]]" = OrderedDict()
+    for it in items:
+        if id(it) in pinned_ids:
+            continue
+        by_src.setdefault(it.source, []).append(it)
     r = 0
     while len(out) < limit:
         added = False
@@ -547,9 +558,7 @@ body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 var(--font);
   .wrap{max-width:1460px}
   .layout{grid-template-columns:320px minmax(0,1fr) 300px}
   .rail{display:block;position:sticky;top:22px;height:calc(100vh - 44px)}
-  .rail-scroll{height:100%;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
-  .rail-scroll::-webkit-scrollbar{width:8px}
-  .rail-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+  .rail-scroll{height:100%;overflow:hidden}
 }
 .srcs-t{margin-top:11px}
 .srcs-t>summary{cursor:pointer;font-size:11.5px;color:var(--muted-2);list-style:none;padding:5px 0 2px;user-select:none}
@@ -652,13 +661,14 @@ def _shell(now, inner, share_url, brand, encrypted) -> str:
 
     extra_js = (
         "function railAuto(){var sc=document.querySelector('.rail-scroll');if(!sc)return;"
-        "var paused=false,t=null;"
+        "var tr=sc.querySelector('.rail-track');if(!tr)return;"
+        "var y=0,h=0,paused=false;"
         "sc.addEventListener('mouseenter',function(){paused=true});"
         "sc.addEventListener('mouseleave',function(){paused=false});"
-        "sc.addEventListener('wheel',function(){paused=true;clearTimeout(t);t=setTimeout(function(){paused=false},2500)},{passive:true});"
         "sc.addEventListener('touchstart',function(){paused=true},{passive:true});"
-        "setInterval(function(){if(paused)return;sc.scrollTop+=1;"
-        "if(sc.scrollTop>=sc.scrollHeight/2)sc.scrollTop-=sc.scrollHeight/2;},45);}"
+        "function step(){if(!h){h=tr.scrollHeight/2;}"
+        "if(h>40&&!paused){y-=0.45;if(-y>=h){y+=h;}tr.style.transform='translateY('+y+'px)';}"
+        "requestAnimationFrame(step);}requestAnimationFrame(step);}"
         "function bindActs(){if(window.innerWidth<920){"
         "document.querySelectorAll('.acts-d').forEach(function(d){d.removeAttribute('open')});}}"
         "function hoistCve(){var r=document.querySelector('.mrib.mtop'),w=document.querySelector('.wrap');"
